@@ -4,6 +4,7 @@ env.config();
 import express from 'express';
 import connectDb  from './database/dataBase.js';
 import cookieParser from 'cookie-parser';
+import adminRouter from './routes/adminRouter.js';
 
 const app = express();
 const port = 3000;
@@ -13,7 +14,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());
 
-
+app.use('/admin',adminRouter)
 app.get('/' , (req ,res)=>{
       res.send("server is running");
 })
