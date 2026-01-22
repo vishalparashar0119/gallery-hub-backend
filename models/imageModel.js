@@ -1,9 +1,15 @@
 import mongoose from "mongoose";
 
 const imageSchema = mongoose.Schema({
-      imageUrl: {
-            type: String,
-            require: true,
+      image: {
+            imageUrl: {
+                  type: String,
+                  requrie: true
+            },
+            publicId: {
+                  type: String,
+                  requrie: true
+            }
       },
       likes: {
             type: Number,
