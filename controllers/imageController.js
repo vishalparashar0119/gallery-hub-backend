@@ -69,10 +69,26 @@ export const unlikeImage = async (req, res) => {
       }
 }
 
-export const fetchAllImage = async (req, res) => {
+export const fetchImage = async (req, res) => {
       try {
-             const images = await ImageModel.find();
-             return res.status(200).json({success : true , message : 'all images' , images});
+            // newest
+            // oldest
+            // popular
+            const { filter = "newest" } = req.query;
+            let images;
+            switch (filter) {
+                  case "newest": images = await ImageModel.find().sort({ createdAt: -1 });
+                        break;
+                  case "oldest": images = await ImageModel.find().sort({ createdAt: 1 });
+                        break;
+                  case "popular": images = await ImageModel.find().sort({ likes: -1 });
+                        break;
+                  default: return res.status(400).json({
+                        success: false,
+                        message: "Invalid filter value"
+                  });
+            }
+            return res.status(200).json({ success: true, message: 'all images', images });
       } catch (error) {
             console.log('image controller : fetch all image :: ', error.message);
             return res.status(500).json({ success: false, message: 'opps somthing went wrong' });
