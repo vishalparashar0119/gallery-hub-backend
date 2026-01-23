@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { fetchAllImage } from "../controllers/imageController.js";
+import { fetchImage } from "../controllers/imageController.js";
 
 const router = Router();
 
-router.get('/',fetchAllImage)
+router.get('/',fetchImage)
 
 export default router;
