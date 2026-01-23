@@ -8,7 +8,7 @@ import adminRouter from './routes/adminRouter.js';
 import userRouter from './routes/userRouter.js';
 
 const app = express();
-const port = 3000;
+const port = 3001;
 await connectDb();
 
 app.use(express.json());
@@ -22,5 +22,5 @@ app.get('/' , (req ,res)=>{
 })
 
 app.listen(port , ()=>{
-      console.log(`your server is running on http://localhost:3000`)
+      console.log(`your server is running on http://localhost:${port}`)
 });

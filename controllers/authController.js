@@ -24,6 +24,7 @@ export const adminLogin = async (req, res) => {
 
       } catch (error) {
             console.log('auth controller : admin Login :: ', error.message);
+            return res.status(500).json({ success: false, message: 'opps somthing went wrong' });
       }
 }
 
@@ -53,5 +54,6 @@ export const loginAndSignupUser = async (req, res) => {
             return res.status(200).json({ success: true, isAdmin: false, message: 'User login successfully' });
       } catch (error) {
             console.log('auth controller : login and signup user :: ', error.message);
+            return res.status(500).json({ success: false, message: 'opps somthing went wrong' });
       }
 }
