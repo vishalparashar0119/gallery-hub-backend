@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
 
 const imageSchema = mongoose.Schema({
+      title: {
+            type: String,
+            require: true
+      },
       image: {
             imageUrl: {
                   type: String,
