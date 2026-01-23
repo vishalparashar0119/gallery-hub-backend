@@ -6,7 +6,7 @@ const userSchema = mongoose.Schema({
       avatar : String,
       firebaseUid : String,
       provider : String,
-      likes : [{
+      likedImages : [{
             type : mongoose.Schema.Types.ObjectId,
             ref:'image'
       }]
