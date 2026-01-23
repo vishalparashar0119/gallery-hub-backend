@@ -56,15 +56,25 @@ export const unlikeImage = async (req, res) => {
 
             if (!image) return res.status(404).json({ success: false, message: 'image not found' });
 
-            user.likedImages = user.likedImages.filter((ids) =>{
+            user.likedImages = user.likedImages.filter((ids) => {
                   return ids.toString() != id;
-            }) 
+            })
 
             await user.save();
 
             return res.status(200).json({ success: true, message: " unliked image successfully" });
       } catch (error) {
             console.log('image controller : like image :: ', error.message);
+            return res.status(500).json({ success: false, message: 'opps somthing went wrong' });
+      }
+}
+
+export const fetchAllImage = async (req, res) => {
+      try {
+             const images = await ImageModel.find();
+             return res.status(200).json({success : true , message : 'all images' , images});
+      } catch (error) {
+            console.log('image controller : fetch all image :: ', error.message);
             return res.status(500).json({ success: false, message: 'opps somthing went wrong' });
       }
 }
