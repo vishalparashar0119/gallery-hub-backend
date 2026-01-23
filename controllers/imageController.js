@@ -5,6 +5,7 @@ import uploadeImageCloudinary from "../utils/uploadeImageToCloudinary.js";
 export const uploadImage = async (req, res) => {
       try {
             const { buffer } = req.file;
+            const {title} = req.body;
             const { email } = req.admin;
             const uploadedImage = await uploadeImageCloudinary(buffer);
             const result = await ImageModel.create({
