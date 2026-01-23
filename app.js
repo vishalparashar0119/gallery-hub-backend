@@ -5,6 +5,7 @@ import express from 'express';
 import connectDb  from './database/dataBase.js';
 import cookieParser from 'cookie-parser';
 import adminRouter from './routes/adminRouter.js';
+import userRouter from './routes/userRouter.js';
 
 const app = express();
 const port = 3000;
@@ -14,7 +15,8 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());
 
-app.use('/admin',adminRouter)
+app.use('/admin',adminRouter);
+app.use('/user',userRouter);
 app.get('/' , (req ,res)=>{
       res.send("server is running");
 })

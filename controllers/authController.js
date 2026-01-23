@@ -1,4 +1,6 @@
+import admin from "../configs/firebaseConfig.js";
 import AdminModel from "../models/adminModel.js"
+import UserModel from "../models/userModel.js";
 import genrateJwtToken from "../utils/genrateJwtToken.js";
 import setCookies from "../utils/setCookies.js";
 import verifyPassword from "../utils/verifyPassword.js";
@@ -22,5 +24,34 @@ export const adminLogin = async (req, res) => {
 
       } catch (error) {
             console.log('auth controller : admin Login :: ', error.message);
+      }
+}
+
+export const loginAndSignupUser = async (req, res) => {
+      try {
+            const { idToken } = req.body;
+            const decodeToken = await admin.auth().verifyIdToken(idToken);
+
+            const { name, email, picture, uid } = decodeToken;
+
+            let user = await UserModel.findOne({ email: email });
+
+            if (!user) {
+                  user = await UserModel.create({
+                        name,
+                        email,
+                        avatar: picture,
+                        firebaseUid: uid,
+                        provider: 'google.com',
+                  })
+            }
+
+            const token = genrateJwtToken(email, uid);
+
+            setCookies(res, token, 'token');
+
+            return res.status(200).json({ success: true, isAdmin: false, message: 'User login successfully' });
+      } catch (error) {
+            console.log('auth controller : login and signup user :: ', error.message);
       }
 }
