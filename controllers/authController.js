@@ -57,3 +57,20 @@ export const loginAndSignupUser = async (req, res) => {
             return res.status(500).json({ success: false, message: 'opps somthing went wrong' });
       }
 }
+
+export const logout = async (req, res) => {
+      try {
+            res.clearCookie('token', {
+                  httpOnly: true,
+                  secure: true,
+                  sameSite: 'None',
+                  path: '/'
+            });
+
+            return res.status(200).json({success:true , message : 'logout successfull'})
+      } catch (error) {
+
+            console.log('auth controller : logout :: ', error.message);
+            return res.status(500).json({ success: false, message: 'opps somthing went wrong' });
+      }
+}
