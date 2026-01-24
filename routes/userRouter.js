@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { loginAndSignupUser } from "../controllers/authController.js";
+import { loginAndSignupUser, logout } from "../controllers/authController.js";
 import { likeImage, unlikeImage } from "../controllers/imageController.js";
 import { isLoggedIn } from "../middleware/isLoggedIn.js";
 
@@ -10,5 +10,7 @@ router.post('/loginAndSignup',loginAndSignupUser);
 router.patch('/like/:id', isLoggedIn,likeImage);
 
 router.patch('/unlike/:id', isLoggedIn,unlikeImage);
+
+router.post('/unlike/:id', logout);
 
 export default router;
