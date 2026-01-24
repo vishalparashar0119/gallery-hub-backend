@@ -9,6 +9,7 @@ export const uploadImage = async (req, res) => {
             const { email } = req.admin;
             const uploadedImage = await uploadeImageCloudinary(buffer);
             const result = await ImageModel.create({
+                  title : title,
                   image: {
                         imageUrl: uploadedImage.imageUrl,
                         publicId: uploadedImage.publicId
