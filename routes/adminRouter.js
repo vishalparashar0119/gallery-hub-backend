@@ -12,6 +12,6 @@ router.post('/uplodeImage',isAdmin ,  upload.single("image") , uploadImage);
 
 router.patch('/updateImage/:id', isAdmin ,editImageInfo);
 
-router.post('/updateImage/:id', logout);
+router.post('/logout', logout);
 
 export default router;

@@ -11,6 +11,6 @@ router.patch('/like/:id', isLoggedIn,likeImage);
 
 router.patch('/unlike/:id', isLoggedIn,unlikeImage);
 
-router.post('/unlike/:id', logout);
+router.post('/logout', logout);
 
 export default router;
