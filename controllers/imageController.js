@@ -5,10 +5,11 @@ import uploadeImageCloudinary from "../utils/uploadeImageToCloudinary.js";
 export const uploadImage = async (req, res) => {
       try {
             const { buffer } = req.file;
-            const {title} = req.body;
+            const { title } = req.body;
             const { email } = req.admin;
             const uploadedImage = await uploadeImageCloudinary(buffer);
             const result = await ImageModel.create({
+                  title : title,
                   image: {
                         imageUrl: uploadedImage.imageUrl,
                         publicId: uploadedImage.publicId
@@ -93,5 +94,22 @@ export const fetchImage = async (req, res) => {
       } catch (error) {
             console.log('image controller : fetch all image :: ', error.message);
             return res.status(500).json({ success: false, message: 'opps somthing went wrong' });
+      }
+}
+
+export const editImageInfo = async (req, res) => {
+      try {
+            const { title } = req.body;
+            const { id } = req.params;
+
+            const updatedImage = await ImageModel.findOneAndUpdate({ _id: id }, { $set: { title: title } }, { new: true });
+
+            if (!updatedImage) return res.status(404).json({ success: false, message: "image not found" });
+
+            return res.status(200).json({ success: true, message: "updated  success fully" });
+      } catch (error) {
+            console.log('image controller :  edit image info :: ', error.message);
+            return res.status(500).json({ success: false, message: 'opps somthing went wrong' });
+
       }
 }
