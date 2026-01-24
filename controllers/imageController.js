@@ -1,6 +1,8 @@
+import mongoose from "mongoose";
 import ImageModel from "../models/imageModel.js";
 import UserModel from "../models/userModel.js";
 import uploadeImageCloudinary from "../utils/uploadeImageToCloudinary.js";
+import deleteImageFromCloudnary from "../utils/deleteImageFromCloudnary.js";
 
 export const uploadImage = async (req, res) => {
       try {
@@ -9,7 +11,7 @@ export const uploadImage = async (req, res) => {
             const { email } = req.admin;
             const uploadedImage = await uploadeImageCloudinary(buffer);
             const result = await ImageModel.create({
-                  title : title,
+                  title: title,
                   image: {
                         imageUrl: uploadedImage.imageUrl,
                         publicId: uploadedImage.publicId
@@ -111,5 +113,30 @@ export const editImageInfo = async (req, res) => {
             console.log('image controller :  edit image info :: ', error.message);
             return res.status(500).json({ success: false, message: 'opps somthing went wrong' });
 
+      }
+}
+
+export const deleteImage = async (req, res) => {
+      try {
+            const { id } = req.params;
+            const imageId = new mongoose.Types.ObjectId(id);
+
+            const image = await ImageModel.findOne({ _id: imageId });
+
+
+            if (!image) return res.status(404).json({ success: false, message: "image not found" });
+
+            const deletImage = await deleteImageFromCloudnary(image.image.publicId)
+
+            if (!deletImage) return res.status(400).json({ success: false, message: "failed to delete image" });
+
+            await UserModel.updateMany({ likedImages: imageId }, { $pull: { likedImages: imageId } }, { new: true });
+
+            await ImageModel.findByIdAndDelete(imageId);
+
+            return res.status(200).json({ success: true, message: "delete image successfully" });
+      } catch (error) {
+            console.log('image controller :  edit image info :: ', error.message);
+            return res.status(500).json({ success: false, message: 'opps somthing went wrong' });
       }
 }
