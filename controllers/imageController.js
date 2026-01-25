@@ -148,7 +148,23 @@ export const likedImages = async (req, res) => {
             console.log(likedImages);
             return res.status(200).json({ success: true, message: "likes images", likedImages:user.likedImages });
       } catch (error) {
-            console.log('image controller :  edit image info :: ', error.message);
+            console.log('image controller :  liked images :: ', error.message);
+            return res.status(500).json({ success: false, message: 'opps somthing went wrong' });
+      }
+}
+
+export const isLikedOrNot = async (req , res)=>{
+      try {
+              const {email} = req.user;
+              const {id} = req.params;
+
+              const user = await UserModel.findOne({email});
+              const isLiked = user.likedImages.includes(id);
+
+              return res.status(200).json({success:true , isLiked});
+      } catch (error) {
+            
+            console.log('image controller :  is liked or not :: ', error.message);
             return res.status(500).json({ success: false, message: 'opps somthing went wrong' });
       }
 }
