@@ -1,11 +1,11 @@
 import { Router } from "express";
-import { loginAndSignupUser, logout } from "../controllers/authController.js";
+import { userLogin, logout } from "../controllers/authController.js";
 import { likeImage, unlikeImage } from "../controllers/imageController.js";
 import { isLoggedIn } from "../middleware/isLoggedIn.js";
 
 const router = Router();
 
-router.post('/loginAndSignup',loginAndSignupUser);
+router.post('/login',userLogin);
 
 router.patch('/like/:id', isLoggedIn,likeImage);
 
