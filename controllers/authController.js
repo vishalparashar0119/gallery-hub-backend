@@ -28,7 +28,7 @@ export const adminLogin = async (req, res) => {
       }
 }
 
-export const loginAndSignupUser = async (req, res) => {
+export const userLogin = async (req, res) => {
       try {
             const { idToken } = req.body;
             const decodeToken = await admin.auth().verifyIdToken(idToken);
@@ -51,7 +51,7 @@ export const loginAndSignupUser = async (req, res) => {
 
             setCookies(res, token, 'token');
 
-            return res.status(200).json({ success: true, isAdmin: false, message: 'User login successfully' });
+            return res.status(200).json({ success: true, isAdmin: false, message: 'User login successfully' , user});
       } catch (error) {
             console.log('auth controller : login and signup user :: ', error.message);
             return res.status(500).json({ success: false, message: 'opps somthing went wrong' });
