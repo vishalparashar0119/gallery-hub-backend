@@ -140,3 +140,15 @@ export const deleteImage = async (req, res) => {
             return res.status(500).json({ success: false, message: 'opps somthing went wrong' });
       }
 }
+
+export const likedImages = async (req, res) => {
+      try {
+            const { email } = req.user;
+            const user = await UserModel.findOne({ email: email }).populate('likedImages');
+            console.log(likedImages);
+            return res.status(200).json({ success: true, message: "likes images", likedImages:user.likedImages });
+      } catch (error) {
+            console.log('image controller :  edit image info :: ', error.message);
+            return res.status(500).json({ success: false, message: 'opps somthing went wrong' });
+      }
+}
